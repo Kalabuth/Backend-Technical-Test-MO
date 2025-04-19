@@ -116,7 +116,7 @@ class PaymentViewSetTests(APITestCase):
             f"{self.url}?customer_external_id={self.customer.external_id}", **self.auth
         )
         self.assertEqual(resp_list.status_code, status.HTTP_200_OK)
-        self.assertIn("pay_list", [x["external_id"] for x in resp_list.data])
+        self.assertIn("pay_list", [x["external_id"] for x in resp_list.data["results"]])
 
         # Retrieve detail
         resp_det = self.client.get(f"{self.url}{p.external_id}/", **self.auth)

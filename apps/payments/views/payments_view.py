@@ -6,6 +6,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
+from apps.common.methods.custom_pagination import CustomPagination
 
 from apps.authentication.mixins.api_key_protected_view_mixin import (
     ApiKeyProtectedViewMixin,
@@ -35,6 +36,7 @@ class PaymentViewSet(ApiKeyProtectedViewMixin, viewsets.GenericViewSet):
     queryset = Payment.objects.all()
     lookup_field = "external_id"
     parser_classes = [JSONParser]
+    pagination_class = CustomPagination
 
     def get_serializer_class(self):
         if self.action == "create":
@@ -63,6 +65,10 @@ class PaymentViewSet(ApiKeyProtectedViewMixin, viewsets.GenericViewSet):
         qs = self.get_queryset()
         if customer_id:
             qs = qs.filter(customer__external_id=customer_id)
+        page = self.paginate_queryset(qs)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 

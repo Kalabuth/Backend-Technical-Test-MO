@@ -27,7 +27,7 @@ class CustomerViewSetTests(APITestCase):
         """GET /customers/ returns an empty list when there are no customers."""
         response = self.client.get(self.base_url, HTTP_X_API_KEY=self.api_key)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, [])
+        self.assertEqual(response.data["results"], [])
 
     def test_create_customer_sets_active(self):
         """
@@ -99,13 +99,13 @@ class CustomerViewSetTests(APITestCase):
     def test_bulk_upload_customers_synchronous(self):
         """
         POST /customers/upload/ with a plain-text file (no Celery):
-        - Parses lines "external_id,score"
+        - Parses lines: "external_id,score[,preapproved_at][,status]"
         - Returns 200 with dict containing "created" list and empty "errors"
         """
         buffer = StringIO()
         writer = csv.writer(buffer)
-        writer.writerow(["bulk_1", "1000.00"])
-        writer.writerow(["bulk_2", "2000.00"])
+        writer.writerow(["bulk_1", "1000.00", "2025-04-19T15:00:00Z", "1"])
+        writer.writerow(["bulk_2", "2000.00", "2025-04-19T15:05:00Z", "1"])
         buffer.seek(0)
 
         response = self.client.post(
@@ -114,8 +114,10 @@ class CustomerViewSetTests(APITestCase):
             format="multipart",
             HTTP_X_API_KEY=self.api_key,
         )
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         result = response.data
+
         # Both lines should have been created successfully
         self.assertIn("bulk_1", result["created"])
         self.assertIn("bulk_2", result["created"])

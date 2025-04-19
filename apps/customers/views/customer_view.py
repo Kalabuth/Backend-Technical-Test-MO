@@ -8,6 +8,8 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from apps.common.methods.custom_pagination import CustomPagination
+
 from apps.authentication.mixins.api_key_protected_view_mixin import (
     ApiKeyProtectedViewMixin,
 )
@@ -37,6 +39,7 @@ class CustomerViewSet(ApiKeyProtectedViewMixin, GenericViewSet):
     queryset = Customer.objects.all().order_by("-created_at")
     lookup_field = "external_id"
     parser_classes = [JSONParser, MultiPartParser]
+    pagination_class = CustomPagination
 
     def get_serializer_class(self):
         if self.action == "upload":
@@ -50,6 +53,10 @@ class CustomerViewSet(ApiKeyProtectedViewMixin, GenericViewSet):
     )
     def list(self, request):
         customers = self.get_queryset()
+        page = self.paginate_queryset(customers)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(customers, many=True)
         return Response(serializer.data)
 
