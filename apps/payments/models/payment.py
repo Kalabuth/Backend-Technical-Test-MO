@@ -14,7 +14,7 @@ from apps.payments.choices.payment_status_choices import PaymentStatus
 
 class Payment(BaseModel):
     external_id = CharField(max_length=60, unique=True)
-    total_amount = DecimalField(max_digits=20, decimal_places=10)
+    total_amount = DecimalField(max_digits=20, decimal_places=2)
     status = IntegerField(
         choices=PaymentStatus.choices,
         default=PaymentStatus.COMPLETED,

@@ -12,7 +12,6 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ["external_id", "status", "score", "preapproved_at"]
-        read_only_fields = ["status", "preapproved_at"]
 
     def create(self, validated_data):
         validated_data["status"] = 1

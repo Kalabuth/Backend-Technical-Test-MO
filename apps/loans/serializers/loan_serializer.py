@@ -2,7 +2,7 @@ from django.db.models import Sum
 from rest_framework import serializers
 
 from apps.customers.models.customers import Customer
-from apps.loans.models.loans import Loan
+from apps.loans.models.loans import Loan, LoanStatus
 
 
 class LoanSerializer(serializers.ModelSerializer):
@@ -41,7 +41,7 @@ class LoanCreateSerializer(serializers.ModelSerializer):
     """
     Serializer for creating new Loan instances.
     - Validates that existing debt + new amount <= customer.score
-    - On create, sets status=ACTIVE (2) and outstanding=amount
+    - On create, sets status=PENDING (1) and outstanding=amount
     """
 
     customer_external_id = serializers.SlugRelatedField(
@@ -87,7 +87,7 @@ class LoanCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """
         Create the Loan with:
-          - status = ACTIVE (2)
+          - status = PENDING (1)
           - outstanding = amount
         """
         loan_instance = Loan.objects.create(
@@ -95,7 +95,7 @@ class LoanCreateSerializer(serializers.ModelSerializer):
             customer=validated_data["customer"],
             amount=validated_data["amount"],
             outstanding=validated_data["amount"],
-            status=2,
+            status=LoanStatus.PENDING,
             contract_version=validated_data.get("contract_version", ""),
             taken_at=validated_data.get("taken_at"),
             maximum_payment_date=validated_data.get("maximum_payment_date"),

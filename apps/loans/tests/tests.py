@@ -37,7 +37,7 @@ class LoanViewSetTests(APITestCase):
         data = resp.data
         self.assertEqual(data["external_id"], "loan_01")
         self.assertEqual(data["outstanding"], "500.00")
-        self.assertEqual(data["status"], LoanStatus.ACTIVE)
+        self.assertEqual(data["status"], LoanStatus.PENDING)
 
     def test_create_loan_exceeds_credit_fails(self):
         """
@@ -83,7 +83,7 @@ class LoanViewSetTests(APITestCase):
             f"{self.url}?customer_external_id={self.customer.external_id}", **self.auth
         )
         self.assertEqual(resp_list.status_code, status.HTTP_200_OK)
-        ext_ids = {item["external_id"] for item in resp_list.data}
+        ext_ids = {item["external_id"] for item in resp_list.data["results"]}
         self.assertEqual(ext_ids, {"loan_a", "loan_b"})
 
         # retrieve

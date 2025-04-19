@@ -6,7 +6,7 @@ from apps.payments.models.payment import Payment
 
 
 class PaymentDetail(BaseModel):
-    amount = DecimalField(max_digits=20, decimal_places=10)
+    amount = DecimalField(max_digits=20, decimal_places=2)
     loan = ForeignKey(Loan, on_delete=CASCADE, related_name="payment_details")
     payment = ForeignKey(Payment, on_delete=CASCADE, related_name="details")
 

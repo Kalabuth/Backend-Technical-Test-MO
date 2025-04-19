@@ -104,8 +104,8 @@ class CustomerViewSetTests(APITestCase):
         """
         buffer = StringIO()
         writer = csv.writer(buffer)
-        writer.writerow(["bulk_1", "1000.00", "2025-04-19T15:00:00Z", "1"])
-        writer.writerow(["bulk_2", "2000.00", "2025-04-19T15:05:00Z", "1"])
+        writer.writerow(["bulk_1", "1000.00", "2025-04-19T15:00:00Z"])
+        writer.writerow(["bulk_2", "2000.00", "2025-04-19T15:05:00Z"])
         buffer.seek(0)
 
         response = self.client.post(
