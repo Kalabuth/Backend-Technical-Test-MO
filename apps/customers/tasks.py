@@ -2,6 +2,7 @@ import csv
 import io
 
 from django.db import transaction
+
 from apps.customers.serializers.customer_serializer import CustomerSerializer
 from mo.celery import celery_app
 
@@ -11,7 +12,7 @@ def import_customers_task(self, raw_content):
     """
     Background task that reads lines in format:
     external_id,score[,preapproved_at]
-    
+
     - Creates each Customer using the validated serializer
     - Returns a summary with created and errors
     """
@@ -24,10 +25,7 @@ def import_customers_task(self, raw_content):
                 errors.append(f"Line {idx}: expected 2 to 4 values, got {len(row)}")
                 continue
 
-            data = {
-                "external_id": row[0].strip(),
-                "score": row[1].strip()
-            }
+            data = {"external_id": row[0].strip(), "score": row[1].strip()}
 
             if len(row) >= 3 and row[2].strip():
                 data["preapproved_at"] = row[2].strip()

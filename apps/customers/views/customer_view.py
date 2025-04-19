@@ -8,11 +8,10 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from apps.common.methods.custom_pagination import CustomPagination
-
 from apps.authentication.mixins.api_key_protected_view_mixin import (
     ApiKeyProtectedViewMixin,
 )
+from apps.common.methods.custom_pagination import CustomPagination
 from apps.customers.models.customers import Customer
 from apps.customers.serializers.customer_serializer import (
     CustomerBalanceSerializer,

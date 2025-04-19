@@ -8,12 +8,10 @@ from rest_framework.decorators import action
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
-from apps.common.methods.custom_pagination import CustomPagination
-
-
 from apps.authentication.mixins.api_key_protected_view_mixin import (
     ApiKeyProtectedViewMixin,
 )
+from apps.common.methods.custom_pagination import CustomPagination
 from apps.loans.models.loans import Loan, LoanStatus
 from apps.loans.serializers.loan_serializer import LoanCreateSerializer, LoanSerializer
 
