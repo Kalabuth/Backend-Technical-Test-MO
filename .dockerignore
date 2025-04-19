@@ -1,0 +1,102 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info
+*.cache
+*.log
+
+# Private key
+*.pem
+
+# Files related to testing and building
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+.coverage/
+pip-log.txt
+pip-delete-this-directory.txt
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.tox/
+
+# Development tools
+*.pot
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+*.egg
+
+# Databases
+*.sqlite3
+
+# Media and static files (It's often better to build these in the Dockerfile if necessary)
+media/
+static/
+
+# Local configuration
+local_settings.py
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDEs and text editors
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+.vscode/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Celery beat file
+celerybeat.pid
+
+# Ignore pyenv and poetry virtual environments
+.pyenv/
+.poetry/
+
+# Ignore various IDEs
+*.idea/
+.vscode/
+
+# Ignore environment variables file
+.env
+
+# Ignore log files
+logs/
+
+# Ignore local database files
+*.db
+*.sqlite
+
+# Ignore coverage reports
+coverage/
+
+# Ignore build directories
+build/
+dist/
+*.egg-info/
+.installed.cfg
+
+# Ignore node modules
+node_modules/

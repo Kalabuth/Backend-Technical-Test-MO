@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: >
+      sh -c "echo yes | python manage.py collectstatic
+      && gunicorn mo.wsgi:application --bind 0.0.0.0:8080"
+    volumes:
+      - ./:/code/
+      - static_volume:/code/static
+      - media_volume:/code/media
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    networks:
+      - mo_networks
+
+  redis:
+    image: redis:alpine
+    command: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - mo_networks
+
+  worker:
+    build: .
+    command: celery -A mo worker --loglevel=info -Q celery,default
+    volumes:
+      - ./:/code/
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    networks:
+      - mo_networks
+
+  celery-beat:
+    build: .
+    command: >
+      celery -A mo beat
+      --loglevel=info
+      --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - ./:/code/
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    networks:
+      - mo_networks
+
+  flower:
+    build: .
+    command: >
+      celery -A mo flower
+      --address=0.0.0.0
+      --port=5555
+      --loglevel=info
+    volumes:
+      - ./:/code/
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    networks:
+      - mo_networks
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    volumes:
+      - static_volume:/code/static
+      - media_volume:/code/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - web
+    networks:
+      - mo_networks
+
+volumes:
+  static_volume:
+  media_volume:
+  redis_data:
+
+networks:
+  mo_networks:
+    driver: bridge

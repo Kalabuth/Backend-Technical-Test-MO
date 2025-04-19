@@ -1,0 +1,138 @@
+[tool.poetry]
+name = "mo-app-backend"
+version = "0.1.0"
+description = ""
+authors = ["Juan Camilo <juancamiloariascalderon173@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+black = "24.4.0"
+celery = "5.3.6"
+coverage = "7.3.4"
+django = "^4.2"
+django-admin-honeypot-blag = "^1.2.0"
+django-admin-logs = "1.1.0"
+django-axes = "6.4.0"
+django-celery-beat = "2.5.0"
+django-cors-headers = "4.3.1"
+django-filter = "23.5"
+django-grappelli = "3.0.8"
+django-ipware = "6.0.3"
+django-permissions-policy = "4.18.0"
+django-two-factor-auth = "1.15.5"
+django-otp = "1.3.0"
+djangorestframework = "^3.15"
+djangorestframework-api-key = "^3.1.0"
+djangorestframework-simplejwt = "5.3.1"
+drf-yasg = "1.21.7"
+flower = "2.0.1"
+gunicorn = "^23.0"
+humanize = "4.9.0"
+phonenumbers = "8.13.28"
+pre-commit = "3.7.0"
+psycopg2-binary = "2.9.9"
+PyJWT = "2.8.0"
+python-dateutil = "2.8.2"
+python-decouple = "3.8"
+PyYAML = "6.0.1"
+redis = "5.0.1"
+ruff = "0.1.13"
+safety = "3.1.0"
+social-auth-app-django = "5.4.1"
+daphne = "^4.1.2"
+django-cities-light = "^3.10.1"
+boto3 = "^1.35.22"
+django-storages = "^1.13.2"
+pillow = "^10.4.0"
+notihub = "^0.0.1rc0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+ignore-init-module-imports = true
+line-length = 90
+select = [
+    "F",    # pyflakes
+    "E",    # pycodestyle
+    "W",    # pycodestyle
+    "I",    # isort
+    "DJ",   # django
+    "Q"     # flake8-quotes
+]
+fix = true
+ignore = ["DJ001"]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "*/migrations/*"
+]
+
+[tool.ruff.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.extend-per-file-ignores]
+"**/migrations/*.py" = ["ALL"]
+"__init__.py" = ["ALL"]
+
+[tool.black]
+line-length = 90
+extend-exclude = '''(__init__.py|migrations/*)'''
+exclude = '''
+    /(
+        \.git
+      | \.hg
+      | \.mypy_cache
+      | \.nox
+      | \.tox
+      | \.venv
+      | _build
+      | buck-out
+      | build
+      | dist
+      | node_modules
+      | venv
+    )/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 90
+known_first_party = "mo"
+sections = "FUTURE,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+
+
+[tool.coverage.run]
+branch = true
+source = ["apps"]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/mo/*",
+    "*/manage.py",
+    "*/fixtures/*",
+    "*/__init__.py",
+]

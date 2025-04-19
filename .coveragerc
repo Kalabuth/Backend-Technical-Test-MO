@@ -1,0 +1,34 @@
+# .coveragerc to control coverage.py
+[run]
+branch = True
+omit =
+        *Test*
+        */usr/local/lib*
+        */__init__.py
+        */migrations/*
+        */apps.py
+        */urls.py
+        */celery.py
+        */task_handler.py
+        */settings.py
+        */manage.py
+        */tests/*
+        */fixtures/*
+        */management/*
+
+
+[report]
+omit =
+        *Test*
+        */usr/local/lib*
+        */__init__.py
+        */migrations/*
+        */apps.py
+        */urls.py
+        */celery.py
+        */task_handler.py
+        */settings.py
+        */manage.py
+        */tests/*
+        */fixtures/*
+        */management/*
