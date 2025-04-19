@@ -57,8 +57,17 @@ mo/                   ← Django “project” package
 
 ## ⚙️ Configuration
 
+1. Copy `env.example` → `.env` **alongside** your `settings.py` (e.g. in the same directory as `mo/mo/settings.py`).
+2. Perfecto, aquí tienes el fragmento modificado dentro de la sección **⚙️ Configuration**, con una nota clara para el revisor técnico sobre el `.env`:
+
+---
+
+## ⚙️ Configuration
+
 1. Copy `env.example` → `.env` **alongside** your `settings.py` (e.g. in the same directory as `mo/mo/settings.py`).  
-2. Fill in values:
+   > ⚠️ **Note**: This `.env` file is included in the repository only because this is a technical test.  
+   > In real projects, I store and share it securely via **Passbolt** or similar tools, and I never commit `.env` files to version control.  
+3. Fill in values:
 
    ```dotenv
    # SECURITY
