@@ -27,8 +27,11 @@ RUN useradd -m appuser
 WORKDIR /code
 COPY . .
 
-RUN mkdir -p /code/static /code/media
+# entrypoint para migraciones
+COPY --chown=appuser:appuser entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-# Ensure all files belong to the non-root user
-RUN chown -R appuser:appuser /code /code/static /code/media  /usr/local/lib/python3.12/site-packages
 USER appuser
+
+CMD ["gunicorn", "mo.wsgi:application", "--bind", "0.0.0.0:8080"]
